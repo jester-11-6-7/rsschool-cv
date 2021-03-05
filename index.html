@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        font-family: 'Montserrat', sans-serif;
+        text-decoration: none;
+        text-align: center;
+    }
+</style>
+<body>
+    <div class="Person">
+        <h2>Person:</h2>
+        <p>Makarevich Ilya </p>
+    </div>
+    <div class="Communications">
+        <h2>Communications:</h2>
+        <p>Phone:<a href="tel:+3751186282">(8029)118-62-82 </a></p>
+        <p>E-mail:<a href="mailto:vacuum135531@gmail.com">vacuum135531@gmail.com</a></p>
+    </div>
+    <div class="About_me">
+        <h2>About me</h2>
+        <p>.........</p>
+    </div>
+    <div class="Skils">
+        <h2>Skils</h2>
+        <p>html, css, sass, bootstrap.</p>
+        <p>JS, jquery, gulp.  </p>
+        <p>React ..... </p>
+    </div>
+    <div class="Code">
+        <h2>Code</h2>
+        <pre>
+import { useState, useEffect } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
+import PT from 'prop-types';
+import axios from 'axios';
+
+import { MovieDetailsPage } from '../../pages';
+
+const { REACT_APP_API_URL, REACT_APP_MOVIE_API_KEY } = process.env;
+
+export const MovieDetailsPageContainer = ({
+    as: Component = MovieDetailsPage,
+    movies,
+    ...other
+}) => {
+    const [movie, setMovie] = useState(null);
+    const [similarMovies, setSimilarMovies] = useState([]);
+    const { movieId } = useParams();
+    const history = useHistory();
+
+    useEffect(() => {
+        const similarMoviesUrl = `${REACT_APP_API_URL}/movie/${movieId}/similar?api_key=${REACT_APP_MOVIE_API_KEY}`;
+        const foundMovie = movies.find(({ id }) => id === +movieId);
+
+        if (foundMovie) {
+            (async () => {
+                try {
+                    const {
+                        data: { results }
+                    } = await axios.get(similarMoviesUrl);
+
+                    setMovie(foundMovie);
+                    setSimilarMovies(results.slice(0, 5));
+                } catch (e) {
+                    console.error(e);
+                    history.push('/');
+                }
+            })();
+            return;
+        }
+
+        const movieUrl = `${REACT_APP_API_URL}/movie/${movieId}?api_key=${REACT_APP_MOVIE_API_KEY}`;
+
+        (async () => {
+            try {
+                const [
+                    movieResponse,
+                    similarMoviesResponse
+                ] = await Promise.all([
+                    axios.get(movieUrl),
+                    axios.get(similarMoviesUrl)
+                ]);
+
+                const { data: movieDetails } = movieResponse;
+                const {
+                    data: { results }
+                } = similarMoviesResponse;
+
+                setMovie(movieDetails);
+                setSimilarMovies(results.slice(0, 5));
+            } catch (e) {
+                console.error(e);
+                history.push('/');
+            }
+        })();
+    }, [movieId]);
+
+    if (!movie || !similarMovies.length) return null;
+
+    return &lt Component movie={movie} similarMovies={similarMovies} {...other} / &gt;;
+};
+
+MovieDetailsPageContainer.propTypes = {
+    as: PT.elementType,
+    movies: PT.arrayOf(
+        PT.shape({
+            id: PT.number.isRequired
+        })
+    ).isRequired
+};
+        </pre>
+
+    </div>
+
+</body>
+</html>
