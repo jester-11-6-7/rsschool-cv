@@ -1,2 +1,2 @@
 https://jester-11-6-7.github.io/rsschool-cv/cv   
-https://jester-11-6-7.github.io/rsschool-cv/index
+https://jester-11-6-7.github.io/rsschool-cv/
