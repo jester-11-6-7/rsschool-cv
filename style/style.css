@@ -1,0 +1,45 @@
+*{
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    max-width: 1024px;
+    margin: auto;
+}
+
+.title{
+    text-align: center;
+}
+
+footer, main{
+    margin-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.4);
+    padding-top: 20px;
+}
+
+.links{
+    display: flex;
+    justify-content: space-evenly;
+    line-height: 50px;
+}
+.links a{
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+header li {
+    list-style: none;
+}
+
+.myPhoto{
+    width: 60px;
+}
+
+article{
+    margin-top: 20px;
+}
+
+.information{
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    height: 60px;
+}

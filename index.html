@@ -6,47 +6,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/style.css">
     <title>Document</title>
 </head>
-<style>
-    *{
-        font-family: 'Montserrat', sans-serif;
-        text-decoration: none;
-        text-align: center;
-    }
-</style>
 <body>
-    <div class="Person">
-        <h2>Person:</h2>
-        <p>Makarevich Ilya </p>
-    </div>
-    <div class="Communications">
-        <h2>Communications:</h2>
-        <p>Phone:<a href="tel:+3751186282">(8029)118-62-82 </a></p>
-        <p>E-mail:<a href="mailto:vacuum135531@gmail.com">vacuum135531@gmail.com</a></p>
-    </div>
-    <div class="About_me">
-        <h2>About me</h2>
-        <p>.........</p>
-    </div>
-    <div class="Skils">
-        <h2>Skils</h2>
-        <p>html, css, sass, bootstrap.</p>
-        <p>JS, jquery, gulp.  </p>
-        <p>React ..... </p>
-    </div>
-    <div class="Code">
-        <h2>Code</h2>
-        <pre>
+    <header>
+        <nav>
+            <ul class="links">
+                <li><a href="#Person">Person</a></li>
+                <li><a href="#Communications">Communications</a></li>
+                <li><a href="#About_me">About me</a></li>
+                <li><a href="#Skils">Skils</a></li>
+                <li><a href="#Code">Code</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h1 class="title">Information About me</h1>
+                        <img class="myPhoto" src="img/photo_2021-02-24_17-46-54.jpg" alt="myPhoto">
+            <article id="Person">
+                <h2 class="title">Person:</h2>
+                <p>Makarevich Ilya </p>
+            </article>
+            <article id="Communications">
+                <h2  class="title">Communications:</h2>
+                <ul>
+                    <li>Phone: <a href="tel:+3751186282">(8029)118-62-82 </a></li>
+                    <li>E-mail: <a href="mailto:vacuum135531@gmail.com">vacuum135531@gmail.com</a></li>
+                </ul>
+            </article>
+            <article id="About_me">
+                <h2 class="title">About me</h2>
+                <p>Purpose: gaining new knowledge & skills (nothing else)</p>
+            </article>
+            <article id="Skils">
+                <h2 class="title">Skils (Low skills)</h2>
+                <ul>
+                    <li><h4>HTML, CSS</h4>
+                        <ul>
+                            <li>html</li>
+                            <li>css</li>
+                            <li>sass</li>
+                            <li>bootstrap</li>
+                            <li>...</li>
+                        </ul>
+                    </li>
+                    <li><h4>JS</h4>
+                        <ul>
+                            <li>JS</li>
+                            <li>jquery</li>
+                            <li>gulp</li>
+                            <li>...</li>
+                        </ul>
+                    </li>
+                    <li><h4>React</h4>
+                        <ul>
+                            <li>React Redux</li>
+                            <li>Hooks react (useEffect, useContext, useState, useRef, ...)</li>
+                            <li>Axios</li>
+                            <li>Styled Components, class names, ...</li>
+                            <li>React-hook-form</li>
+                            <li>React Router Dom</li>
+                            <li>...</li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- <p>html, css, sass, bootstrap.</p>
+                <p>JS, jquery, gulp.  </p>
+                <p>React ..... </p> -->
+            </article>
+            <article id="Code">
+                <h2 class="title">Code</h2>
+                <pre class="code"><code>
 import { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import PT from 'prop-types';
 import axios from 'axios';
-
+        
 import { MovieDetailsPage } from '../../pages';
-
+        
 const { REACT_APP_API_URL, REACT_APP_MOVIE_API_KEY } = process.env;
-
+        
 export const MovieDetailsPageContainer = ({
     as: Component = MovieDetailsPage,
     movies,
@@ -55,19 +96,21 @@ export const MovieDetailsPageContainer = ({
     const [movie, setMovie] = useState(null);
     const [similarMovies, setSimilarMovies] = useState([]);
     const { movieId } = useParams();
-    const history = useHistory();
-
+     const history = useHistory();
+        
     useEffect(() => {
-        const similarMoviesUrl = `${REACT_APP_API_URL}/movie/${movieId}/similar?api_key=${REACT_APP_MOVIE_API_KEY}`;
+        const similarMoviesUrl = `${
+            REACT_APP_API_URL}/movie/${movieId}/similar?api_key=${REACT_APP_MOVIE_API_KEY
+            }`;
         const foundMovie = movies.find(({ id }) => id === +movieId);
-
+        
         if (foundMovie) {
             (async () => {
                 try {
                     const {
                         data: { results }
                     } = await axios.get(similarMoviesUrl);
-
+        
                     setMovie(foundMovie);
                     setSimilarMovies(results.slice(0, 5));
                 } catch (e) {
@@ -75,11 +118,13 @@ export const MovieDetailsPageContainer = ({
                     history.push('/');
                 }
             })();
-            return;
+                    return;
         }
-
-        const movieUrl = `${REACT_APP_API_URL}/movie/${movieId}?api_key=${REACT_APP_MOVIE_API_KEY}`;
-
+        
+        const movieUrl = `${
+            REACT_APP_API_URL}/movie/${movieId}?api_key=${REACT_APP_MOVIE_API_KEY
+            }`;
+        
         (async () => {
             try {
                 const [
@@ -89,12 +134,12 @@ export const MovieDetailsPageContainer = ({
                     axios.get(movieUrl),
                     axios.get(similarMoviesUrl)
                 ]);
-
+        
                 const { data: movieDetails } = movieResponse;
                 const {
                     data: { results }
                 } = similarMoviesResponse;
-
+        
                 setMovie(movieDetails);
                 setSimilarMovies(results.slice(0, 5));
             } catch (e) {
@@ -103,12 +148,12 @@ export const MovieDetailsPageContainer = ({
             }
         })();
     }, [movieId]);
-
+        
     if (!movie || !similarMovies.length) return null;
-
-    return &lt Component movie={movie} similarMovies={similarMovies} {...other} / &gt;;
+        
+    return &lt; Component movie={movie} similarMovies={similarMovies} {...other} / &gt; ;
 };
-
+        
 MovieDetailsPageContainer.propTypes = {
     as: PT.elementType,
     movies: PT.arrayOf(
@@ -117,9 +162,25 @@ MovieDetailsPageContainer.propTypes = {
         })
     ).isRequired
 };
-        </pre>
-
-    </div>
-
+                </code></pre>
+            </article>
+            <article class="Education">
+                <h2 class="title">Education</h2>
+                <p>...</p>
+            </article>
+            <article id="level_English">
+                <h2 class="title">Level English</h2>
+                <p>level English: ~A1</p>
+            </article>
+        </section>
+    </main>
+    <footer>
+        <div class="information">
+            <p><a href="https://github.com/jester-11-6-7" target="_blank" title="github">My Github</a></p>
+            <a href="https://www.youtube.com/watch?v=fhnrrLxQEVQ&ab_channel=DepecheMode" target="_blank" title="self-esteem"><img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" height="20" alt="self-esteem"></a>
+            <a href="https://rs.school/js/" target="_blank" title="rs-School"><img src="https://rs.school/images/rs_school_js.svg" width="50" height="20" alt="rs School"></a>
+        </div>
+        <p>@2021 All rights reserved</p>
+    </footer>
 </body>
 </html>
